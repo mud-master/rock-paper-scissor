@@ -2,10 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock, Paper, Scissors!</title>
 </head>
 <body>
-    <script src="game.js"></script>
+    <h1>
+        Rock, Paper, Scissors!
+    </h1>
+
+    <p>This is a console game, so go ahead and inspect this page to play!</p>
+
+    
+    <script src="game.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            playGame();
+        });
+    </script>
+    
 </body>
 </html>
