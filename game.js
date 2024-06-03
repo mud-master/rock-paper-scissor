@@ -1,5 +1,3 @@
-console.log("Let's play Rock, Paper, Scissors!");
-
 let humanScore = 0;
 let computerScore = 0;
 let round = 1;
@@ -16,77 +14,84 @@ function getComputerChoice() {
   }
 }
 
-function getHumanChoice() {
-  while (true) {
-    let human_choice = prompt("Enter your choice: ");
+function playRound(humanChoice) {
+  let computerChoice = getComputerChoice();
+  if (updateScoreboard(humanChoice, computerChoice)) {
+    round++;
+  }
 
-    if (
-      human_choice.toLowerCase() == "rock" ||
-      human_choice.toLowerCase() == "paper" ||
-      human_choice.toLowerCase() == "scissors"
-    ) {
-      return human_choice.toLowerCase();
+  if (round == 5) {
+    if (humanScore > computerScore) {
+      scoreboard.textContent = "You win! Final score: You: " + humanScore + " Computer: " + computerScore ;
+    } else {
+      scoreboard.textContent =  "You lost! Final score: You: " + humanScore + " Computer: " + computerScore
     }
+    round = 1
   }
 }
 
-function playRound() {
-  let computerChoice = getComputerChoice();
-  let humanChoice = getHumanChoice();
-
+function updateScoreboard(humanChoice, computerChoice) {
   if (
     (computerChoice == "rock" && humanChoice == "paper") ||
     (computerChoice == "paper" && humanChoice == "scissors") ||
     (computerChoice == "scissors" && humanChoice == "rock")
   ) {
     humanScore++;
-
-    console.log(
+    scoreboard.textContent =
       "Round " +
-        round +
-        ": You win! " +
-        humanChoice.toUpperCase().charAt(0) +
-        humanChoice.substring(1) +
-        " beats " +
-        computerChoice + " | Current score: You: " + humanScore + " Computer: " + computerScore
-    );
-    round++;
+      round +
+      ": You win! " +
+      humanChoice.toUpperCase().charAt(0) +
+      humanChoice.substring(1) +
+      " beats " +
+      computerChoice +
+      " | Current score: You: " +
+      humanScore +
+      " Computer: " +
+      computerScore;
+    return true;
   } else if (computerChoice == humanChoice) {
-    console.log(
-        "Round " + round
-         + ": You both chose " + humanChoice + "! Let's replay round " + round
-    );
+    scoreboard.textContent =
+      "Round " +
+      round +
+      ": You both chose " +
+      humanChoice +
+      "! Let's replay round " +
+      round;
+    return false;
   } else {
     computerScore++;
-
-    console.log(
-        "Round " +
-          round +
-          ": You lose! " +
-          computerChoice.toUpperCase().charAt(0) +
-          computerChoice.substring(1) +
-          " beats " +
-          humanChoice + " | Current score: You: " + humanScore + " Computer: " + computerScore
-      );
-
-      round++;
+    scoreboard.textContent =
+      "Round " +
+      round +
+      ": You lose! " +
+      computerChoice.toUpperCase().charAt(0) +
+      computerChoice.substring(1) +
+      " beats " +
+      humanChoice +
+      " | Current score: You: " +
+      humanScore +
+      " Computer: " +
+      computerScore;
+    return true;
   }
 }
 
-function playGame() {
-  while (round <= 5) {
-    if (playRound()) {
-      round++;
-    }
-  }
+const scoreboard = document.querySelector("#scoreboard");
 
-  console.log(
-    "Final score: You: " + humanScore + " Computer: " + computerScore
-  );
-  if (humanScore > computerScore) {
-    console.log("Congrats! You win the game! 🦧");
-  } else {
-    console.log("Game over. You lose!");
-  }
-}
+const rockBtn = document.querySelector("#rock");
+const paperBtn = document.querySelector("#paper");
+const scissorsBtn = document.querySelector("#scissors");
+
+rockBtn.addEventListener("click", () => {
+  playRound("rock");
+});
+
+paperBtn.addEventListener("click", () => {
+  playRound("paper");
+});
+
+scissorsBtn.addEventListener("click", () => {
+  playRound("scissors");
+});
 
